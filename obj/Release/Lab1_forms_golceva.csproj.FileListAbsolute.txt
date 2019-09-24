@@ -1,0 +1,10 @@
+D:\Projects\New\Goltceva\Lab1_forms_golceva\bin\Release\Lab1_forms_golceva.exe.config
+D:\Projects\New\Goltceva\Lab1_forms_golceva\bin\Release\Lab1_forms_golceva.exe
+D:\Projects\New\Goltceva\Lab1_forms_golceva\bin\Release\Lab1_forms_golceva.pdb
+D:\Projects\New\Goltceva\Lab1_forms_golceva\obj\Release\Lab1_forms_golceva.csprojAssemblyReference.cache
+D:\Projects\New\Goltceva\Lab1_forms_golceva\obj\Release\Lab1_forms_golceva.Form1.resources
+D:\Projects\New\Goltceva\Lab1_forms_golceva\obj\Release\Lab1_forms_golceva.Properties.Resources.resources
+D:\Projects\New\Goltceva\Lab1_forms_golceva\obj\Release\Lab1_forms_golceva.csproj.GenerateResource.cache
+D:\Projects\New\Goltceva\Lab1_forms_golceva\obj\Release\Lab1_forms_golceva.csproj.CoreCompileInputs.cache
+D:\Projects\New\Goltceva\Lab1_forms_golceva\obj\Release\Lab1_forms_golceva.exe
+D:\Projects\New\Goltceva\Lab1_forms_golceva\obj\Release\Lab1_forms_golceva.pdb

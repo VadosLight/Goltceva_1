@@ -1,0 +1,11 @@
+
+obj/Debug/DesignTimeResolveAssemblyReferences.cache
+*.ide
+.vs/Lab1_forms_golceva/v16/Server/sqlite3/storage.ide-wal
+.vs/Lab1_forms_golceva/v16/Server/sqlite3/storage.ide-shm
+.vs/Lab1_forms_golceva/v16/Server/sqlite3/storage.ide
+.vs/Lab1_forms_golceva/v16/.suo
+obj/Debug/DesignTimeResolveAssemblyReferences.cache
+obj/Debug/Lab1_forms_golceva.csproj.GenerateResource.cache
+obj/Debug/Lab1_forms_golceva.csprojAssemblyReference.cache
+*.pdb

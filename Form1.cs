@@ -4,30 +4,6 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
 
-//Единицы измерения
-//подписать оси
-
-//Тема курсового:
-/*
- Принести черновой вариант задания на Курсовой
- Задание: Мат обеспечение программного комплекса по анализу и прогнозированию качества ПП
- -характеристика технологического процесса
- 
-
-    -Введение
-    -Аналитический обзор
-        1.1 характеристика показателей качества
-        1.2 характеристика программного обеспечения
-        1.3 методы оценки
-        2.1 Цель и задачи работы
-
-        3. Основная часть
-        3.1  Выбор/модификация алгоритма
-        Анализ, алгоритмы, интерфейс,
-
-        4. Выводы по работе
-        список источников, содержание,
-     */
 namespace Lab1_forms_golceva
 {
     public partial class Form1 : Form
@@ -36,9 +12,7 @@ namespace Lab1_forms_golceva
         {
             InitializeComponent();
         }
-        ///////////////////////////////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////Проверка ввода
-        ///////////////////////////////////////////////////////////////////////////////////////////////////        
+      
         private void TxtN_KeyPress(object sender, KeyPressEventArgs e)
         {
             char number = e.KeyChar;
@@ -47,10 +21,8 @@ namespace Lab1_forms_golceva
                 e.Handled = true;
             }
         }
-        //Проверка ввода только цифр и знаков  
-        ///////////////////////////////////////////////////////////////////////////////////////////////////
-        /////////////////////////////////////////////////////////////////////////Первая часть
-        ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //Мат модель для 1й ступени, 1й части
         private double Math_Model(int N, double M, double C, double V, double G, double tau, double x)
         {
             double C_vyh = 0;
@@ -72,7 +44,7 @@ namespace Lab1_forms_golceva
 
             return C_vyh;
         }
-        //Мат модель для 1й ступени, 1й части
+        //Мат модель для 2й ступени, 1й части
         private double Math_Model_2(int N, double M, double C, double V, double G, double tau, double x)
         {
             double C_vyh = 0;
@@ -95,13 +67,13 @@ namespace Lab1_forms_golceva
 
             return C_vyh;
         }
-        //Мат модель для 2й ступени, 1й части
         private void Calculate(int N, double M, double C, double V, double G, double tau, double time)
         {
             double step = 0.1;
             //===============
-            chart1.Series.Clear();
-            chart1.Dock = DockStyle.Fill;
+            
+            chart5.Series.Clear();
+            chart5.Dock = DockStyle.Fill;
 
             Series mySeriesOfPoint = new Series("Модель реактора");
             mySeriesOfPoint.ChartType = SeriesChartType.Line;
@@ -125,12 +97,12 @@ namespace Lab1_forms_golceva
             {
                 Axis ax = new Axis();
                 ax.Title = "Время";
-                chart1.ChartAreas[0].AxisX = ax;
+                chart5.ChartAreas[0].AxisX = ax;
                 Axis ay = new Axis();
                 ay.Title = "Выходная концентрация";
-                chart1.ChartAreas[0].AxisY = ay;
+                chart5.ChartAreas[0].AxisY = ay;
             }
-            chart1.Series.Add(mySeriesOfPoint);
+            chart5.Series.Add(mySeriesOfPoint);
         }
         //Алгоритм для вычисления 1й части
         private void Button1_Click(object sender, EventArgs e)
@@ -191,32 +163,143 @@ namespace Lab1_forms_golceva
             Process.Start(filePath);
         }
         //Вывод изображения с 2й частью 
-        private void Button4_Click(object sender, EventArgs e)
-        {
-            //вводимые параметры
-            int N = Int16.Parse(txt2_num_cell.Text);
-            double V = Double.Parse(txt2_V.Text);
-            double G = Double.Parse(txt2_G.Text);
-            double Ca_vh = Double.Parse(txt2_Ca_vh.Text);
-            //начальные условия
-            double Ca0 = Double.Parse(txt2_Ca0.Text);
-            double Cb0 = Double.Parse(txt2_Cb0.Text);
-            double Cc0 = Double.Parse(txt2_Cc0.Text);
-            double K = Double.Parse(txt2_K.Text);
-            //
-            // хз, надо ли будет использовать double a1 = 1, a2 = 2, a3 = 3;
-            //
-            //
-            if (N > 0 && V > 0 && G > 0 && Ca_vh > 0 && Ca0 >= 0 && Cb0 >= 0 && Cc0 >= 0 && K > 0)
-            {
 
+        private void Button5_Click(object sender, EventArgs e)
+        {
+            int n = 0, m = 0;
+            double k1 = 0, caIn = 0, ca0 = 0, cb0 = 0, cc0 = 0, ca2 = 0, cb2 = 0, cc2 = 0, tau = 0, v = 0, g = 0;
+            double a_1 = 0, a_2 = 0, a_3 = 0;
+
+            dgw.Rows.Clear();
+            chart1.Series["Ca"].Points.Clear();
+            chart1.Series["Cb"].Points.Clear();
+            chart1.Series["Cc"].Points.Clear();
+
+            dgw2.Rows.Clear();
+            chart2.Series["Ca2"].Points.Clear();
+            chart2.Series["Cb2"].Points.Clear();
+            chart2.Series["Cc2"].Points.Clear();
+
+
+            try {
+                n = Convert.ToInt16(cbN.Text);
+                k1 = Convert.ToDouble(tbK1.Text);
+                caIn = Convert.ToDouble(tbCAin.Text);
+                ca0 = Convert.ToDouble(tbCa0.Text);
+                cb0 = Convert.ToDouble(tbCb0.Text);
+                cc0 = Convert.ToDouble(tbCc0.Text);
+                ca2 = Convert.ToDouble(tbCa2.Text);
+                cb2 = Convert.ToDouble(tbCb2.Text);
+                cc2 = Convert.ToDouble(tbCc2.Text);
+                m = Convert.ToInt16(cbM.Text);
+                v = Convert.ToDouble(tbV.Text);
+                g = Convert.ToDouble(tbG.Text);
+                tau = v / g;
+                a_1 = Convert.ToDouble(a1.Text);
+                a_2 = Convert.ToDouble(a2.Text);
+                a_3 = Convert.ToDouble(a3.Text);
             }
-            else
-            {
-                MessageBox.Show("Все значения должны быть больше нуля!");
-            }
+            catch { }
+
+
+            if (n == 1 || n == 2)
+                if (k1 >= 0.8 && k1 <= 1)
+                    if (caIn >= 1 && caIn <= 5)
+                        if (ca0 >= 0 && ca0 <= 3)
+                            if (cb0 >= 0 && cb0 <= 5)
+                                if (cc0 >= 0 && cc0 <= 3)
+                                    if (ca2 >= 0 && ca0 <= 3)
+                                        if (cb2 >= 0 && cb0 <= 5)
+                                            if (cc2 >= 0 && cc0 <= 3)
+                                                if (v >= 1 && v <= 5)
+                                                    if (g > 0.5 && g <= 5)
+                                                        if (m == 3 || m == 4 || m == 5)
+                                                        {
+                                                            lbErr.Text = "";
+                                                            lblTau.Text = "τ = " + Math.Round(tau, 3);
+
+                                                            if (n == 1 || n == 2)
+                                                            {
+                                                                double caNext = ca0;
+                                                                double cbNext = cb0;
+                                                                double ccNext = cc0;
+
+                                                                double ca2Next = 0, cb2Next = 0, cc2Next = 0;
+
+                                                                dgw.Columns.Add("t", "t");
+                                                                dgw.Columns.Add("CA", "CA");
+                                                                dgw.Columns.Add("CB", "CB");
+                                                                dgw.Columns.Add("CC", "CC");
+
+                                                                dgw.Rows.Add("0", caNext, cbNext, ccNext);
+
+                                                                chart1.Series["Ca"].Points.AddXY(0, caNext);
+                                                                chart1.Series["Cb"].Points.AddXY(0, cbNext);
+                                                                chart1.Series["Cc"].Points.AddXY(0, ccNext);
+
+                                                                if (n == 2)
+                                                                {
+                                                                    ca2Next = ca2;
+                                                                    cb2Next = cb2;
+                                                                    cc2Next = cc2;
+
+                                                                    dgw2.Columns.Add("t", "t");
+                                                                    dgw2.Columns.Add("CA2", "CA2");
+                                                                    dgw2.Columns.Add("CB2", "CB2");
+                                                                    dgw2.Columns.Add("CC2", "CC2");
+
+                                                                    dgw2.Rows.Add("0", ca2Next, cb2Next, cc2Next);
+
+                                                                    chart2.Series["Ca2"].Points.AddXY(0, ca2Next);
+                                                                    chart2.Series["Cb2"].Points.AddXY(0, cb2Next);
+                                                                    chart2.Series["Cc2"].Points.AddXY(0, cc2Next);
+                                                                }
+
+                                                                for (int i = 1; i < m * tau; i++)
+                                                                {
+                                                                    cbNext = cbNext + (1 / tau) * ((0 - cbNext) + a_2 * k1 * caNext);//бетта
+                                                                    ccNext = ccNext + (1 / tau) * ((0 - ccNext) + a_3 * k1 * caNext);//гамма вместо 2
+                                                                    caNext = caNext + (1 / tau) * ((caIn - caNext) - a_1 * k1 * caNext);//альфа
+
+                                                                    dgw.Rows.Add(i + 1, Math.Round(caNext, 3), Math.Round(cbNext, 3), Math.Round(ccNext, 3));
+
+                                                                    chart1.Series["Ca"].Points.AddXY(i - 1, caNext);
+                                                                    chart1.Series["Cb"].Points.AddXY(i - 1, cbNext);
+                                                                    chart1.Series["Cc"].Points.AddXY(i - 1, ccNext);
+
+                                                                    if (n == 2)
+                                                                    {
+                                                                        cb2Next = cb2Next + (1 / tau) * ((cbNext - cb2Next) + a_2 * k1 * ca2Next);
+                                                                        cc2Next = cc2Next + (1 / tau) * ((ccNext - cc2Next) + a_3 * k1 * ca2Next);
+                                                                        ca2Next = ca2Next + (1 / tau) * ((caNext - ca2Next) - a_1 * k1 * ca2Next);
+
+                                                                        dgw2.Rows.Add(i + 1, Math.Round(ca2Next, 3), Math.Round(cb2Next, 3), Math.Round(cc2Next, 3));
+                                                                        chart2.Series["Ca2"].Points.AddXY(i - 1, ca2Next);
+                                                                        chart2.Series["Cb2"].Points.AddXY(i - 1, cb2Next);
+                                                                        chart2.Series["Cc2"].Points.AddXY(i - 1, cc2Next);
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        else
+                                                            lbErr.Text = "M = 3, 4 или 5";
+                                                    else
+                                                        lbErr.Text = "0,5 <= G <= 5";
+                                                else
+                                                    lbErr.Text = "1 <= V <= 5";
+                                            else
+                                                lbErr.Text = "0 < Cc0 <= 3";
+                                        else
+                                            lbErr.Text = "0 < Cb0 <= 5";
+                                    else
+                                        lbErr.Text = "0 < Ca0 <= 3";
+                                else
+                                    lbErr.Text = "1 <= CAвх <= 5";
+                            else
+                                lbErr.Text = "0,8 <= K1 <= 1";
+                        else
+                            lbErr.Text = "N = 1 или 2";
 
         }
-        //Запуск 2й части + проверки
     }
 }

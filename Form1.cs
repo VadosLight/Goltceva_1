@@ -166,6 +166,8 @@ namespace Lab1_forms_golceva
 
         private void Button5_Click(object sender, EventArgs e)
         {
+            //Надеюсь, этого никто не увидит...
+            //Извините, пожалуйста
             int n = 0, m = 0;
             double k1 = 0, caIn = 0, ca0 = 0, cb0 = 0, cc0 = 0, ca2 = 0, cb2 = 0, cc2 = 0, tau = 0, v = 0, g = 0;
             double a_1 = 0, a_2 = 0, a_3 = 0;
@@ -301,5 +303,7 @@ namespace Lab1_forms_golceva
                             lbErr.Text = "N = 1 или 2";
 
         }
+
+
     }
 }

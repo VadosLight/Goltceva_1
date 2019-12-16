@@ -168,11 +168,12 @@ namespace Lab1_forms_golceva
         {
             //Надеюсь, этого никто не увидит...
             //Извините, пожалуйста
-            int n = 0, m = 0;
+            double n = 0, m = 0;
             double k1 = 0, caIn = 0, ca0 = 0, cb0 = 0, cc0 = 0, ca2 = 0, cb2 = 0, cc2 = 0, tau = 0, v = 0, g = 0;
             double a_1 = 0, a_2 = 0, a_3 = 0;
 
             dgw.Rows.Clear();
+
             chart1.Series["Ca"].Points.Clear();
             chart1.Series["Cb"].Points.Clear();
             chart1.Series["Cc"].Points.Clear();
@@ -183,8 +184,9 @@ namespace Lab1_forms_golceva
             chart2.Series["Cc2"].Points.Clear();
 
 
-            try {
-                n = Convert.ToInt16(cbN.Text);
+            try
+            {
+                n = Convert.ToDouble(cbN.Text);
                 k1 = Convert.ToDouble(tbK1.Text);
                 caIn = Convert.ToDouble(tbCAin.Text);
                 ca0 = Convert.ToDouble(tbCa0.Text);
@@ -193,7 +195,7 @@ namespace Lab1_forms_golceva
                 ca2 = Convert.ToDouble(tbCa2.Text);
                 cb2 = Convert.ToDouble(tbCb2.Text);
                 cc2 = Convert.ToDouble(tbCc2.Text);
-                m = Convert.ToInt16(cbM.Text);
+                m = Convert.ToDouble(cbM.Text);
                 v = Convert.ToDouble(tbV.Text);
                 g = Convert.ToDouble(tbG.Text);
                 tau = v / g;
@@ -202,105 +204,77 @@ namespace Lab1_forms_golceva
                 a_3 = Convert.ToDouble(a3.Text);
             }
             catch { }
+            k1 = 0.5;
 
+
+
+            lbErr.Text = "";
+            lblTau.Text = "τ = " + Math.Round(tau, 3);
 
             if (n == 1 || n == 2)
-                if (k1 >= 0.8 && k1 <= 1)
-                    if (caIn >= 1 && caIn <= 5)
-                        if (ca0 >= 0 && ca0 <= 3)
-                            if (cb0 >= 0 && cb0 <= 5)
-                                if (cc0 >= 0 && cc0 <= 3)
-                                    if (ca2 >= 0 && ca0 <= 3)
-                                        if (cb2 >= 0 && cb0 <= 5)
-                                            if (cc2 >= 0 && cc0 <= 3)
-                                                if (v >= 1 && v <= 5)
-                                                    if (g > 0.5 && g <= 5)
-                                                        if (m == 3 || m == 4 || m == 5)
-                                                        {
-                                                            lbErr.Text = "";
-                                                            lblTau.Text = "τ = " + Math.Round(tau, 3);
+            {
+                double caNext = ca0;
+                double cbNext = cb0;
+                double ccNext = cc0;
 
-                                                            if (n == 1 || n == 2)
-                                                            {
-                                                                double caNext = ca0;
-                                                                double cbNext = cb0;
-                                                                double ccNext = cc0;
+                double ca2Next = 0, cb2Next = 0, cc2Next = 0;
 
-                                                                double ca2Next = 0, cb2Next = 0, cc2Next = 0;
+                dgw.Columns.Add("t", "t");
+                dgw.Columns.Add("CA", "CA");
+                dgw.Columns.Add("CB", "CB");
+                dgw.Columns.Add("CC", "CC");
 
-                                                                dgw.Columns.Add("t", "t");
-                                                                dgw.Columns.Add("CA", "CA");
-                                                                dgw.Columns.Add("CB", "CB");
-                                                                dgw.Columns.Add("CC", "CC");
+                dgw.Rows.Add("0", caNext, cbNext, ccNext);
 
-                                                                dgw.Rows.Add("0", caNext, cbNext, ccNext);
+                chart1.Series["Ca"].Points.AddXY(0, caNext);
+                chart1.Series["Cb"].Points.AddXY(0, cbNext);
+                chart1.Series["Cc"].Points.AddXY(0, ccNext);
 
-                                                                chart1.Series["Ca"].Points.AddXY(0, caNext);
-                                                                chart1.Series["Cb"].Points.AddXY(0, cbNext);
-                                                                chart1.Series["Cc"].Points.AddXY(0, ccNext);
+                if (n == 2)
+                {
+                    ca2Next = ca2;
+                    cb2Next = cb2;
+                    cc2Next = cc2;
 
-                                                                if (n == 2)
-                                                                {
-                                                                    ca2Next = ca2;
-                                                                    cb2Next = cb2;
-                                                                    cc2Next = cc2;
+                    dgw2.Columns.Add("t", "t");
+                    dgw2.Columns.Add("CA2", "CA2");
+                    dgw2.Columns.Add("CB2", "CB2");
+                    dgw2.Columns.Add("CC2", "CC2");
 
-                                                                    dgw2.Columns.Add("t", "t");
-                                                                    dgw2.Columns.Add("CA2", "CA2");
-                                                                    dgw2.Columns.Add("CB2", "CB2");
-                                                                    dgw2.Columns.Add("CC2", "CC2");
+                    dgw2.Rows.Add("0", ca2Next, cb2Next, cc2Next);
 
-                                                                    dgw2.Rows.Add("0", ca2Next, cb2Next, cc2Next);
+                    chart2.Series["Ca2"].Points.AddXY(0, ca2Next);
+                    chart2.Series["Cb2"].Points.AddXY(0, cb2Next);
+                    chart2.Series["Cc2"].Points.AddXY(0, cc2Next);
+                }
+                double h = 0.5;
 
-                                                                    chart2.Series["Ca2"].Points.AddXY(0, ca2Next);
-                                                                    chart2.Series["Cb2"].Points.AddXY(0, cb2Next);
-                                                                    chart2.Series["Cc2"].Points.AddXY(0, cc2Next);
-                                                                }
+                for (double i = 1; i < m * tau; i++)
+                {
 
-                                                                for (int i = 1; i < m * tau; i++)
-                                                                {
-                                                                    cbNext = cbNext + (1 / tau) * ((0 - cbNext) + a_2 * k1 * caNext);//бетта
-                                                                    ccNext = ccNext + (1 / tau) * ((0 - ccNext) + a_3 * k1 * caNext);//гамма вместо 2
-                                                                    caNext = caNext + (1 / tau) * ((caIn - caNext) - a_1 * k1 * caNext);//альфа
+                    cbNext = cbNext + h * (1 / tau) * ((0 - cbNext) + a_2 * k1 * caNext);
+                    ccNext = ccNext + h * (1 / tau) * ((0 - ccNext) + a_3 * k1 * caNext);
+                    caNext = caNext + h * (1 / tau) * ((caIn - caNext) - a_1 * k1 * caNext);
 
-                                                                    dgw.Rows.Add(i + 1, Math.Round(caNext, 3), Math.Round(cbNext, 3), Math.Round(ccNext, 3));
+                    dgw.Rows.Add(i, Math.Round(caNext, 3), Math.Round(cbNext, 3), Math.Round(ccNext, 3));
 
-                                                                    chart1.Series["Ca"].Points.AddXY(i - 1, caNext);
-                                                                    chart1.Series["Cb"].Points.AddXY(i - 1, cbNext);
-                                                                    chart1.Series["Cc"].Points.AddXY(i - 1, ccNext);
+                    chart1.Series["Ca"].Points.AddXY(i , caNext);
+                    chart1.Series["Cb"].Points.AddXY(i, cbNext);
+                    chart1.Series["Cc"].Points.AddXY(i, ccNext);
 
-                                                                    if (n == 2)
-                                                                    {
-                                                                        cb2Next = cb2Next + (1 / tau) * ((cbNext - cb2Next) + a_2 * k1 * ca2Next);
-                                                                        cc2Next = cc2Next + (1 / tau) * ((ccNext - cc2Next) + a_3 * k1 * ca2Next);
-                                                                        ca2Next = ca2Next + (1 / tau) * ((caNext - ca2Next) - a_1 * k1 * ca2Next);
+                    if (n == 2)
+                    {
+                        cb2Next = cb2Next + h * (1 / tau) * ((cbNext - cb2Next) + a_2 * k1 * ca2Next);
+                        cc2Next = cc2Next + h * (1 / tau) * ((ccNext - cc2Next) + a_3 * k1 * ca2Next);
+                        ca2Next = ca2Next + h * (1 / tau) * ((caNext - ca2Next) - a_1 * k1 * ca2Next);
 
-                                                                        dgw2.Rows.Add(i + 1, Math.Round(ca2Next, 3), Math.Round(cb2Next, 3), Math.Round(cc2Next, 3));
-                                                                        chart2.Series["Ca2"].Points.AddXY(i - 1, ca2Next);
-                                                                        chart2.Series["Cb2"].Points.AddXY(i - 1, cb2Next);
-                                                                        chart2.Series["Cc2"].Points.AddXY(i - 1, cc2Next);
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                        else
-                                                            lbErr.Text = "M = 3, 4 или 5";
-                                                    else
-                                                        lbErr.Text = "0,5 <= G <= 5";
-                                                else
-                                                    lbErr.Text = "1 <= V <= 5";
-                                            else
-                                                lbErr.Text = "0 < Cc0 <= 3";
-                                        else
-                                            lbErr.Text = "0 < Cb0 <= 5";
-                                    else
-                                        lbErr.Text = "0 < Ca0 <= 3";
-                                else
-                                    lbErr.Text = "1 <= CAвх <= 5";
-                            else
-                                lbErr.Text = "0,8 <= K1 <= 1";
-                        else
-                            lbErr.Text = "N = 1 или 2";
+                        dgw2.Rows.Add(i, Math.Round(ca2Next, 3), Math.Round(cb2Next, 3), Math.Round(cc2Next, 3));
+                        chart2.Series["Ca2"].Points.AddXY(i, ca2Next);
+                        chart2.Series["Cb2"].Points.AddXY(i, cb2Next);
+                        chart2.Series["Cc2"].Points.AddXY(i, cc2Next);
+                    }
+                }
+            }
 
         }
 
